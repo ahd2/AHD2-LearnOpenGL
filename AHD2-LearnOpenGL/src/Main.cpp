@@ -110,9 +110,15 @@ int main(void)
     std::cout << glGetString(GL_VERSION) << std::endl;
 
     float vertices[] = {
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    -1.0f, -1.0f
+    0.0f, 1.0f,   0.8f, 0.0f, 0.0f,//0(位置， 颜色)
+    1.0f, 0.0f,   0.0f, 0.6f, 0.0f,//1
+    -1.0f, -1.0f, 0.0f, 0.0f, 0.8f,//2
+    -0.4f, 0.8f,  0.5f, 0.5f, 0.0f//3
+    };
+
+    unsigned int indices[] = {
+        0, 1, 2, //第一个三角形
+        2, 3 ,0  //第二个三角形
     };
 
     unsigned int buffer;
@@ -121,10 +127,20 @@ int main(void)
     //指定为顶点缓冲区
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     //填充当前绑定的缓冲区（即上面的顶点缓冲区）
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 5 * 4 * sizeof(float), vertices, GL_STATIC_DRAW);
     //指定数据格式
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);//指定位置属性
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));//指定颜色属性
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    glEnableVertexAttribArray(1);
+
+    unsigned int ebo;
+    //生成一个缓冲区
+    glGenBuffers(1, &ebo);//1表示创建的buffer数量
+    //指定为索引缓冲区
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    //填充当前绑定的缓冲区（即上面的顶点缓冲区）
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
     //拿出shader源码
     ShaderProgramSource shadersource =  ParseShader("res/Shaders/Basic.shader");
@@ -132,13 +148,15 @@ int main(void)
     //创建一个程序对象(其中直接包含shader的创建，编译，程序的链接启用)
     unsigned int shaderProgram = CreateShader(shadersource.VertexSource, shadersource.FragmentSource);
 
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
         glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
