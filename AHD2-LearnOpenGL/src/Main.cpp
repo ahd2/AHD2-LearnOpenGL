@@ -1,6 +1,45 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+struct ShaderProgramSource
+{
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+static ShaderProgramSource ParseShader(const std::string& filepath)
+{
+    std::ifstream stream(filepath);
+
+    enum ShaderType
+    {
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+    ShaderType type = ShaderType::NONE;
+    std::string line;
+    std::stringstream ss[2];
+    while (getline(stream, line))
+    {
+        if (line.find("#shader") != std::string::npos)
+        {
+            if (line.find("vertex") != std::string::npos)
+                //切换shader模式为顶点着色器
+                type = ShaderType::VERTEX;
+            else if (line.find("fragment") != std::string::npos)
+                //切换模式为片元
+                type = ShaderType::FRAGMENT;
+        }
+        else
+        {
+            ss[(int)type] << line << '\n';
+        }
+    }
+    return { ss[0].str(), ss[1].str()};
+}
 
 static unsigned int CompileShader(unsigned int type, const std::string& source)
 {
@@ -76,22 +115,6 @@ int main(void)
     -1.0f, -1.0f
     };
 
-    //顶点着色器
-    const std::string vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "}\0";
-
-    //
-    const std::string fragmentShaderSource = "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0";
-
     unsigned int buffer;
     //生成一个缓冲区
     glGenBuffers(1, &buffer);
@@ -103,8 +126,11 @@ int main(void)
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
+    //拿出shader源码
+    ShaderProgramSource shadersource =  ParseShader("res/Shaders/Basic.shader");
+
     //创建一个程序对象(其中直接包含shader的创建，编译，程序的链接启用)
-    unsigned int shaderProgram = CreateShader(vertexShaderSource, fragmentShaderSource);
+    unsigned int shaderProgram = CreateShader(shadersource.VertexSource, shadersource.FragmentSource);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -120,7 +146,7 @@ int main(void)
         glfwPollEvents();
     }
 
-    glDeleteProgram(shaderProgram);
+    //glDeleteProgram(shaderProgram);
 
     glfwTerminate();
     return 0;
