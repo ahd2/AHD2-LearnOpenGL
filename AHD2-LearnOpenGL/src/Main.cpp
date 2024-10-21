@@ -1,6 +1,49 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <iostream>
+
+static unsigned int CompileShader(unsigned int type, const std::string& source)
+{
+    unsigned int id = glCreateShader(type);
+    const char* src = source.c_str();
+    glShaderSource(id, 1, &src, NULL);
+    glCompileShader(id);
+
+    //检测编译是否成功
+    int  success;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        int length;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+        char* message = (char*)alloca(sizeof(char) * length);
+        glGetShaderInfoLog(id, length, &length, message);
+        std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER? "vertex" : "fragment") << std::endl;
+        std::cout << message << std::endl;
+        glDeleteShader(id);
+        return 0;
+    }
+    return id;
+}
+
+static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
+{
+    unsigned int program = glCreateProgram();
+    unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
+    unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
+
+    glAttachShader(program, vs);
+    glAttachShader(program, fs);
+    glLinkProgram(program);
+
+    glUseProgram(program);
+
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+    
+    return program;
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -33,6 +76,22 @@ int main(void)
     -1.0f, -1.0f
     };
 
+    //顶点着色器
+    const std::string vertexShaderSource = "#version 330 core\n"
+        "layout (location = 0) in vec3 aPos;\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+        "}\0";
+
+    //
+    const std::string fragmentShaderSource = "#version 330 core\n"
+        "out vec4 FragColor;\n"
+        "void main()\n"
+        "{\n"
+        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+        "}\n\0";
+
     unsigned int buffer;
     //生成一个缓冲区
     glGenBuffers(1, &buffer);
@@ -40,13 +99,19 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     //填充当前绑定的缓冲区（即上面的顶点缓冲区）
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW);
+    //指定数据格式
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
+    //创建一个程序对象(其中直接包含shader的创建，编译，程序的链接启用)
+    unsigned int shaderProgram = CreateShader(vertexShaderSource, fragmentShaderSource);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
+        glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
         glDrawArrays(GL_TRIANGLES, 0, 3);
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -54,6 +119,8 @@ int main(void)
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    glDeleteProgram(shaderProgram);
 
     glfwTerminate();
     return 0;
