@@ -139,7 +139,7 @@ int main(void)
     glGenBuffers(1, &ebo);//1表示创建的buffer数量
     //指定为索引缓冲区
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    //填充当前绑定的缓冲区（即上面的顶点缓冲区）
+    //填充当前绑定的缓冲区
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
     //拿出shader源码
@@ -156,6 +156,11 @@ int main(void)
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
         glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
+
+        float timeValue = glfwGetTime();
+        int timeLocation = 0;//glGetUniformLocation(shaderProgram, "time");
+        glUniform1f(timeLocation, timeValue);
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
