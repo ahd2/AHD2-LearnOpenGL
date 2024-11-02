@@ -91,6 +91,10 @@ int main(void)
     if (!glfwInit())
         return -1;
 
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//打开核心模式
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(160 * 5, 90 * 5, "Hello World", NULL, NULL);
     if (!window)
@@ -120,6 +124,11 @@ int main(void)
         0, 1, 2, //第一个三角形
         2, 3 ,0  //第二个三角形
     };
+
+    ////创建一个vao并绑定
+    //unsigned int vao;
+    //glGenVertexArrays(1, &vao);
+    //glBindVertexArray(vao);
 
     unsigned int buffer;
     //生成一个缓冲区

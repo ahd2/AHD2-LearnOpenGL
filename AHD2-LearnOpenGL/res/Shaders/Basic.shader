@@ -20,5 +20,5 @@ void main()
     //FragCol = vec4(OutVertexCol, 1.0f) * (sin(time) * 0.5 + 0.5) + (aaa * 0.1);
     //FragCol = vec4(OutVertexCol, 1.0f);
     FragCol = vec4(OutVertexCol.x, OutVertexCol.y, OutVertexCol.z, 1.0f);
-    //FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+    //FragCol = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 
