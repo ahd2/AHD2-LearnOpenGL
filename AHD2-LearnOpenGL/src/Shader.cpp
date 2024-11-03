@@ -32,6 +32,11 @@ ShaderProgramSource Shader::ParseShader(const std::string& filepath)
     return { ss[0].str(), ss[1].str() };
 }
 
+void Shader::SetUniform1f(const std::string& name, float value)
+{
+    glUniform1f(glGetUniformLocation(m_RendererID, name.c_str()), value);
+}
+
 Shader::Shader(const std::string& filepath)
 	:m_FilePath(filepath), m_RendererID(0)
 {

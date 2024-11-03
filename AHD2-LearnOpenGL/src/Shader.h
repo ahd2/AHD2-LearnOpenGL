@@ -22,7 +22,7 @@ public:
 	ShaderProgramSource ParseShader(const std::string& filepath);
 
 	//…Ë÷√uniform
-
+	void SetUniform1f(const std::string& name, float value);
 private:
 	std::string m_FilePath;
 	unsigned int m_RendererID;
