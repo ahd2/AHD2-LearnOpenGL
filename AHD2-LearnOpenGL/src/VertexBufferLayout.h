@@ -25,9 +25,7 @@ public:
 	void Push<float>(unsigned int dimension)
 	{
 		m_Attributes.push_back({ GL_FLOAT, dimension, false });
-		//m_Attributes.emplace_back(GL_FLOAT, dimension, false);
 		m_Stride += sizeof(GLfloat) * dimension;
-		//m_Attributes.push_back({ GL_FLOAT, count, false });
 	}
 
 	inline const std::vector<VertexBufferSingleAttrib> GetAttributes() const { return m_Attributes; }

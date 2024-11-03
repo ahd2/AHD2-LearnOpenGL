@@ -143,16 +143,6 @@ int main(void)
         layout.Push<float>(3);
         vao.AddAtrrib(vbo, layout);
 
-        ////创建一个vao并绑定
-        //unsigned int vao;
-        //glGenVertexArrays(1, &vao);
-        //glBindVertexArray(vao);
-        ////指定数据格式
-        //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);//指定位置属性
-        //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));//指定颜色属性
-        //glEnableVertexAttribArray(0);
-        //glEnableVertexAttribArray(1);
-
         IndexBuffer ibo(indices, 6);//创建一个ibo
 
         //拿出shader源码

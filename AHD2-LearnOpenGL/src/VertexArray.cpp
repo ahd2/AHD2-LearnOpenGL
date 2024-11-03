@@ -10,6 +10,7 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
+	glDeleteVertexArrays(1, &m_RendererID);
 }
 
 void VertexArray::Bind() const
@@ -26,13 +27,9 @@ void VertexArray::AddAtrrib(const VertexBuffer& vertexbuffer, const VertexBuffer
 		const auto& singleAttribute = attributes[i];
 		glEnableVertexAttribArray(m_AttributeCount + i);
 		glVertexAttribPointer(m_AttributeCount + i, singleAttribute.dimension, singleAttribute.type, GL_FALSE, 
-			vertexbufferlayout.GetStride(), (void*)offset);//指定位置属性
+			vertexbufferlayout.GetStride(), (void*)offset);//指定属性
 		offset += sizeof(singleAttribute.type) * singleAttribute.dimension;
 	}
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);//指定位置属性
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));//指定颜色属性
 }
 
 void VertexArray::UnBind() const

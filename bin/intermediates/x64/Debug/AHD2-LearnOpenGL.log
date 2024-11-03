@@ -1,13 +1,4 @@
-﻿  IndexBuffer.cpp
-  Main.cpp
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(176,29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-  Renderer.cpp
-  VertexArray.cpp
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\VertexArray.cpp(29,36): warning C4312: “类型强制转换”: 从“unsigned int”转换到更大的“void *”
-  VertexBuffer.cpp
-  VertexBufferLayout.cpp
-  正在生成代码...
-glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“”(使用“glew32s.lib(glew.obj)”或在“”中寻找)；正在链接对象，如同没有调试信息一样
+﻿glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“”(使用“glew32s.lib(glew.obj)”或在“”中寻找)；正在链接对象，如同没有调试信息一样
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
 LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   AHD2-LearnOpenGL.vcxproj -> D:\UGit\AHD2-LearnOpenGL\bin\x64\Debug\AHD2-LearnOpenGL.exe
