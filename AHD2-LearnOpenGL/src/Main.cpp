@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 struct ShaderProgramSource
 {
@@ -86,6 +87,11 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
     
     return program;
 }
+template<int N>
+class Array {
+private:
+    int m_Array[N];
+};
 
 int main(void)
 {
@@ -131,16 +137,21 @@ int main(void)
 
         VertexBuffer vbo(vertices, 5 * 4 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
 
-        //创建一个vao并绑定
-        unsigned int vao;
-        glGenVertexArrays(1, &vao);
-        glBindVertexArray(vao);
-        //指定数据格式
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);//指定位置属性
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));//指定颜色属性
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
+        VertexArray vao;
+        VertexBufferLayout layout;
+        layout.Push<float>(2);
+        layout.Push<float>(3);
+        vao.AddAtrrib(vbo, layout);
 
+        ////创建一个vao并绑定
+        //unsigned int vao;
+        //glGenVertexArrays(1, &vao);
+        //glBindVertexArray(vao);
+        ////指定数据格式
+        //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);//指定位置属性
+        //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));//指定颜色属性
+        //glEnableVertexAttribArray(0);
+        //glEnableVertexAttribArray(1);
 
         IndexBuffer ibo(indices, 6);//创建一个ibo
 
@@ -149,7 +160,7 @@ int main(void)
 
         //创建一个程序对象(其中直接包含shader的创建，编译，程序的链接启用)
         unsigned int shaderProgram = CreateShader(shadersource.VertexSource, shadersource.FragmentSource);
-        glBindVertexArray(0);
+        vao.UnBind();
         ibo.UnBind();
         vbo.UnBind();
 
@@ -166,7 +177,7 @@ int main(void)
             int timeLocation = 0;//glGetUniformLocation(shaderProgram, "time");
             glUniform1f(timeLocation, timeValue);
 
-            glBindVertexArray(vao);
+            vao.Bind();
 
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
             /* Swap front and back buffers */
