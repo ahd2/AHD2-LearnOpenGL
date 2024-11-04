@@ -238,12 +238,6 @@ int main(void)
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    /*if (firstMouse)
-    {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
-    }*/
     currentX = xpos;
     currentY = ypos;
 }

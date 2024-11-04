@@ -25,22 +25,22 @@ void Camera::ProcessKeyboard(Camera_Movement direction, const float& deltaTime)
 	switch (direction)
 	{
 	case FORWARD:
-		Position.z -= cameraSpeed * deltaTime;
+		Position += m_FrontDir * cameraSpeed * deltaTime;
 		break;
 	case BACKWARD:
-		Position.z += cameraSpeed * deltaTime;
+		Position -= m_FrontDir * cameraSpeed * deltaTime;
 		break;
 	case LEFT:
-		Position.x -= cameraSpeed * deltaTime;
+		Position -= m_RightDir * cameraSpeed * deltaTime;
 		break;
 	case RIGHT:
-		Position.x += cameraSpeed * deltaTime;
+		Position += m_RightDir * cameraSpeed * deltaTime;
 		break;
 	case UP:
-		Position.y += cameraSpeed * deltaTime;
+		Position += m_UpDir * cameraSpeed * deltaTime;
 		break;
 	case DOWN:
-		Position.y -= cameraSpeed * deltaTime;
+		Position -= m_UpDir * cameraSpeed * deltaTime;
 		break;
 	default:
 		break;
