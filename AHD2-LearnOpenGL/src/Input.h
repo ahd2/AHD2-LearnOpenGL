@@ -1,4 +1,5 @@
 #pragma once
 #include "Renderer.h"
+#include "Camera.h"
 #include "GLFW/glfw3.h"
-void processInputs(GLFWwindow* window);
+void processCameraInputs(GLFWwindow* window, Camera& camera);

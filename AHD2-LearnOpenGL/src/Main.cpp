@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
+#include "Input.h"
 
 int main(void)
 {
@@ -167,7 +168,7 @@ int main(void)
         while (!glfwWindowShouldClose(window))
         {
             //处理输入
-            
+            processCameraInputs(window, camera);
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数

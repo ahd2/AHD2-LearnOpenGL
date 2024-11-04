@@ -7,7 +7,9 @@ enum Camera_Movement {
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN
 };
 
 class Camera
@@ -21,7 +23,7 @@ public:
 	Camera(glm::vec3& position);
 	~Camera();
 	glm::mat4 GetViewMatrix();
-	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
+	void ProcessKeyboard(Camera_Movement direction);
 
 private:
 	glm::vec3 m_UpDir;

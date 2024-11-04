@@ -1,20 +1,31 @@
 #include "Input.h"
-#include "Camera.h"
 #include <iostream>
-void processInputs(GLFWwindow* window)
+void processCameraInputs(GLFWwindow* window, Camera& camera)
 {
-    //// move the camera
-    //if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    //{
-    //    std::cout << "按下W键" << std::endl;
-    //    //相机上移逻辑
-    //    //camera.
-    //}
-    //if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    //{
-    //    std::cout << "按下D键" << std::endl;
-    //    //相机右移逻辑
-    //    //camera.
-    //}
+    // move the camera
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(FORWARD);
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(LEFT);
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(BACKWARD);
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(RIGHT);
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(DOWN);
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        camera.ProcessKeyboard(UP);
+    }
         
 }
