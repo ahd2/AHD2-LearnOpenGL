@@ -21,6 +21,7 @@ float lastFrame = 0.0f; // 上一帧的时间
 const int screenWidth = 160 * 5;
 const int screenHeight = 90 * 5;
 float lastX = screenWidth * 0.5f, lastY = screenHeight * 0.5f;
+float currentX = screenWidth * 0.5f, currentY = screenHeight * 0.5f;
 bool firstMouse = true;
 float xoffset = 0.0f, yoffset = 0.0f;
 
@@ -186,8 +187,11 @@ int main(void)
 
             //处理输入
             processCameraInputs(window, camera, deltaTime);
-            std::cout << xoffset << std::endl;
-            std::cout << yoffset << std::endl;
+            //每帧计算鼠标偏移，而不是在回调函数里面计算
+            xoffset = currentX - lastX;
+            yoffset = lastY - currentY;
+            lastX = currentX;
+            lastY = currentY;
             camera.ProcessMouseMovement(xoffset,yoffset);
 
             /* Render here */
@@ -234,15 +238,12 @@ int main(void)
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    if (firstMouse)
+    /*if (firstMouse)
     {
         lastX = xpos;
         lastY = ypos;
         firstMouse = false;
-    }
-
-    xoffset = xpos - lastX;
-    yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
+    }*/
+    currentX = xpos;
+    currentY = ypos;
 }

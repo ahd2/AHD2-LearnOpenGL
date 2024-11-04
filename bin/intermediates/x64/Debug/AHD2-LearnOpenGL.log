@@ -1,14 +1,6 @@
-﻿  Camera.cpp
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Camera.cpp(6,21): warning C4305: “=”: 从“double”到“float”截断
-  Input.cpp
-  Main.cpp
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(183,32): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(198,29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(239,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(240,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(244,20): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(245,21): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(246,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(247,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-  正在生成代码...
+﻿  Main.cpp
+D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(184,32): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(203,29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(248,16): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\UGit\AHD2-LearnOpenGL\AHD2-LearnOpenGL\src\Main.cpp(249,16): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
   AHD2-LearnOpenGL.vcxproj -> D:\UGit\AHD2-LearnOpenGL\bin\x64\Debug\AHD2-LearnOpenGL.exe
