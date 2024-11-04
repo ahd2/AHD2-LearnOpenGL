@@ -1,6 +1,9 @@
 #include "Shader.h"
 #include "Renderer.h"
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 ShaderProgramSource Shader::ParseShader(const std::string& filepath)
 {
@@ -107,3 +110,10 @@ void Shader::SetUniformIndex(const std::string& name, unsigned int value)
 {
     glUniform1i(glGetUniformLocation(m_RendererID, name.c_str()), value);
 }
+
+void Shader::SetUniformMatrix4fv(const std::string& name, glm::mat4& mat4)
+{
+    glUniformMatrix4fv(glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat4));
+}
+
+

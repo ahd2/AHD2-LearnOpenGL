@@ -8,8 +8,10 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Texture.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include "vendor/stb_image/stb_image.h"
 int main(void)
 {
     GLFWwindow* window;
@@ -22,8 +24,11 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//打开核心模式
 
+    const int screenWidth = 160 * 5;
+    const int screenHeight = 90 * 5;
+
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(160 * 5, 90 * 5, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(screenWidth, screenHeight, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -32,6 +37,9 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+
+    //glfwSwapInterval(1);
+
     //初始化glew
     if (glewInit() != GLEW_OK)
     {
@@ -78,6 +86,21 @@ int main(void)
         shader.SetUniformIndex("texture1", 1);
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
 
+        //模型矩阵
+        glm::mat4 model;
+        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        //观察矩阵
+        glm::mat4 view;
+        // 注意，我们将矩阵向我们要进行移动场景的反方向移动。
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        //投影矩阵
+        glm::mat4 projection;
+        projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+
+        shader.SetUniformMatrix4fv("model", model);
+        shader.SetUniformMatrix4fv("view", view);
+        shader.SetUniformMatrix4fv("projection", projection);
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
@@ -87,6 +110,10 @@ int main(void)
             
             float timeValue = glfwGetTime();
             shader.SetUniform1f("time", timeValue);
+
+            model = glm::rotate(model,  glm::radians(0.5f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+            shader.SetUniformMatrix4fv("model", model);
 
             vao.Bind();
 

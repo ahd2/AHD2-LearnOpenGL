@@ -4,11 +4,14 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aColor;
 layout (location = 2) in vec2 aUv;
 uniform float time;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 out vec3 Color;
 out vec2 Uv;
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    gl_Position = projection * view * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
     Color = aColor * (sin(time) * 0.5 + 0.5);//省计算次数
     Uv = aUv;
 }
