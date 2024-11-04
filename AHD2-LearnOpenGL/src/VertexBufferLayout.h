@@ -24,6 +24,7 @@ public:
 	template<>
 	void Push<float>(unsigned int dimension)
 	{
+		//目前，是否归一化这个参数默认为false，后续应当做出修改
 		m_Attributes.push_back({ GL_FLOAT, dimension, false });
 		m_Stride += sizeof(GLfloat) * dimension;
 	}

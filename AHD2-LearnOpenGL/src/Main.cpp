@@ -51,7 +51,7 @@ int main(void)
             2, 3 ,0  //第二个三角形
         };
 
-        VertexBuffer vbo(vertices, 5 * 4 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
+        VertexBuffer vbo(vertices, 7 * 4 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
 
         VertexArray vao;
         VertexBufferLayout layout;
