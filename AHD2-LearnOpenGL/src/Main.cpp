@@ -8,6 +8,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 
+#include "vendor/stb_image/stb_image.h"
 int main(void)
 {
     GLFWwindow* window;
@@ -39,10 +40,10 @@ int main(void)
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
         float vertices[] = {
-        0.0f, 1.0f,   0.8f, 0.0f, 0.0f,//0(位置， 颜色)
-        1.0f, 0.0f,   0.0f, 0.6f, 0.0f,//1
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.8f,//2
-        -0.4f, 0.8f,  0.5f, 0.5f, 0.0f//3
+        0.0f, 1.0f,   0.8f, 0.0f, 0.0f,   0.5f, 1.0f,  //0(位置， 颜色， uv)
+        1.0f, 0.0f,   0.0f, 0.6f, 0.0f,   1.0f, 0.5f,  //1
+        -1.0f, -1.0f, 0.0f, 0.0f, 0.8f,   0.0f, 0.0f,  //2
+        -0.4f, 0.8f,  0.5f, 0.5f, 0.0f,   0.3f, 0.9f   //3
         };
 
         unsigned int indices[] = {
@@ -56,6 +57,7 @@ int main(void)
         VertexBufferLayout layout;
         layout.Push<float>(2);
         layout.Push<float>(3);
+        layout.Push<float>(2);
         vao.AddAtrrib(vbo, layout);
 
         IndexBuffer ibo(indices, 6);//创建一个ibo
@@ -65,6 +67,31 @@ int main(void)
         vao.UnBind();
         ibo.UnBind();
         vbo.UnBind();
+
+        //纹理
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        // 为当前绑定的纹理对象设置环绕、过滤方式
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        //加载图像
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load("res/Textures/container.jpg", &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            //往纹理buffer填充数据
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cout << "Failed to load texture" << std::endl;
+        }
+        //释放图像内存（cpu端）
+        stbi_image_free(data);
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
 
