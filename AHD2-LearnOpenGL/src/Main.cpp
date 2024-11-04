@@ -7,6 +7,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #include "vendor/stb_image/stb_image.h"
 int main(void)
@@ -68,57 +69,10 @@ int main(void)
         ibo.UnBind();
         vbo.UnBind();
 
-        //纹理
-        unsigned int texture;
-        glGenTextures(1, &texture);
-        glActiveTexture(GL_TEXTURE0);//0号默认激活
-        glBindTexture(GL_TEXTURE_2D, texture);
-        // 为当前绑定的纹理对象设置环绕、过滤方式
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        //加载图像
-        int width, height, nrChannels;
-        unsigned char* data = stbi_load("res/Textures/container.jpg", &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            //往纹理buffer填充数据
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        //释放图像内存（cpu端）
-        stbi_image_free(data);
-
-        unsigned int texture1;
-        glGenTextures(1, &texture1);
-        glActiveTexture(GL_TEXTURE1);//激活一号纹理单元（插槽）
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        // 为当前绑定的纹理对象设置环绕、过滤方式
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        //加载图像
-        int width1, height1, nrChannels1;
-        unsigned char* data1 = stbi_load("res/Textures/awesomeface.png", &width1, &height1, &nrChannels1, 0);
-        if (data1)
-        {
-            //往纹理buffer填充数据
-            //纹理目标、mipmap级别、纹理存储为什么格式、宽、高、源图格式，源图数据格式、数据
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width1, height1, 0, GL_RGBA, GL_UNSIGNED_BYTE, data1);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        //释放图像内存（cpu端）
-        stbi_image_free(data1);
+        Texture tex0("res/Textures/container.jpg", GL_RGB);
+        Texture tex1("res/Textures/awesomeface.png", GL_RGBA);
+        tex0.Bind(0);
+        tex1.Bind(1);
         
         shader.SetUniformIndex("texture1", 1);
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
