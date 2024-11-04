@@ -112,6 +112,19 @@ int main(void)
             33, 34, 35
         };
 
+        glm::vec3 cubePositions[] = {
+          glm::vec3(0.0f,  0.0f,  0.0f),
+          glm::vec3(2.0f,  5.0f, -15.0f),
+          glm::vec3(-1.5f, -2.2f, -2.5f),
+          glm::vec3(-3.8f, -2.0f, -12.3f),
+          glm::vec3(2.4f, -0.4f, -3.5f),
+          glm::vec3(-1.7f,  3.0f, -7.5f),
+          glm::vec3(1.3f, -2.0f, -2.5f),
+          glm::vec3(1.5f,  2.0f, -2.5f),
+          glm::vec3(1.5f,  0.2f, -1.5f),
+          glm::vec3(-1.3f,  1.0f, -1.5f)
+        };
+
         VertexBuffer vbo(vertices, 5 * 36 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
 
         VertexArray vao;
@@ -135,7 +148,9 @@ int main(void)
         
         shader.SetUniformIndex("texture0", 0);
         shader.SetUniformIndex("texture1", 1);
+
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
+        glEnable(GL_DEPTH_TEST);//启用深度测试
 
         //模型矩阵
         glm::mat4 model;
@@ -157,18 +172,30 @@ int main(void)
         {
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
-            glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
+            //glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
             float timeValue = glfwGetTime();
             shader.SetUniform1f("time", timeValue);
 
-            model = glm::rotate(model,  glm::radians(0.5f), glm::vec3(0.5f, 1.0f, 0.0f));
-
-            shader.SetUniformMatrix4fv("model", model);
-
             vao.Bind();
 
-            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+            for (unsigned int i = 0; i < 10; i++)
+            {
+                glm::mat4 model;
+                model = glm::translate(model, cubePositions[i]);
+                float angle = 20.0f * (i + 1);
+                model = glm::rotate(model, timeValue * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+                shader.SetUniformMatrix4fv("model", model);
+
+                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+            }
+            //model = glm::rotate(model, glm::radians(0.5f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+            //shader.SetUniformMatrix4fv("model", model);
+
+            //glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
