@@ -15,6 +15,7 @@ Texture::Texture(const std::string& filepath, unsigned int imageType)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     //加载图像
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);//取读的时候让图片反转以适配OpenGL
     unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {

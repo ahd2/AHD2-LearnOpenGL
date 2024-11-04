@@ -74,6 +74,7 @@ int main(void)
         tex0.Bind(0);
         tex1.Bind(1);
         
+        shader.SetUniformIndex("texture0", 0);
         shader.SetUniformIndex("texture1", 1);
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
 
