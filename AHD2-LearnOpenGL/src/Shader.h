@@ -23,6 +23,7 @@ public:
 
 	//…Ë÷√uniform
 	void SetUniform1f(const std::string& name, float value);
+	void SetUniformIndex(const std::string& name, unsigned int value);
 private:
 	std::string m_FilePath;
 	unsigned int m_RendererID;

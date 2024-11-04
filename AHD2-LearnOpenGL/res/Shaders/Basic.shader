@@ -18,14 +18,15 @@ void main()
 in vec3 Color;
 in vec2 Uv;
 uniform float time;
-uniform sampler2D ourTexture;
+uniform sampler2D texture0;
+uniform sampler2D texture1;
 out vec4 FragCol;
 void main()
 {
     //FragCol = vec4(OutVertexCol, 1.0f) * (sin(time) * 0.5 + 0.5) + (aaa * 0.1);
     //FragCol = vec4(OutVertexCol, 1.0f);
-    vec4 texcol = texture(ourTexture, Uv);
+    vec4 texcol = texture(texture1, Uv);
     FragCol = vec4(Color, 1.0f);
-    FragCol *= texcol * 2;
+    FragCol = texcol;
     //FragCol = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 
