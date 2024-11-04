@@ -16,28 +16,28 @@ glm::mat4 Camera::GetViewMatrix()
 	return glm::lookAt(Position, Position + m_FrontDir, m_UpDir);
 }
 
-void Camera::ProcessKeyboard(Camera_Movement direction)
+void Camera::ProcessKeyboard(Camera_Movement direction, const float& deltaTime)
 {
-	float cameraSpeed = 0.2f;
+	float cameraSpeed = 10.0f;
 	switch (direction)
 	{
 	case FORWARD:
-		Position.z -= cameraSpeed;
+		Position.z -= cameraSpeed * deltaTime;
 		break;
 	case BACKWARD:
-		Position.z += cameraSpeed;
+		Position.z += cameraSpeed * deltaTime;
 		break;
 	case LEFT:
-		Position.x -= cameraSpeed;
+		Position.x -= cameraSpeed * deltaTime;
 		break;
 	case RIGHT:
-		Position.x += cameraSpeed;
+		Position.x += cameraSpeed * deltaTime;
 		break;
 	case UP:
-		Position.y += cameraSpeed;
+		Position.y += cameraSpeed * deltaTime;
 		break;
 	case DOWN:
-		Position.y -= cameraSpeed;
+		Position.y -= cameraSpeed * deltaTime;
 		break;
 	default:
 		break;

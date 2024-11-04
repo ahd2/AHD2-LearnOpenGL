@@ -14,6 +14,10 @@
 #include "Camera.h"
 #include "Input.h"
 
+//全局变量
+float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+float lastFrame = 0.0f; // 上一帧的时间
+
 int main(void)
 {
     GLFWwindow* window;
@@ -167,8 +171,13 @@ int main(void)
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+            //更新deltaTime
+            float currentFrame = glfwGetTime();
+            deltaTime = currentFrame - lastFrame;
+            lastFrame = currentFrame;
+
             //处理输入
-            processCameraInputs(window, camera);
+            processCameraInputs(window, camera, deltaTime);
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数

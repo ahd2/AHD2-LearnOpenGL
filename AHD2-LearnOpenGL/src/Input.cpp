@@ -1,31 +1,31 @@
 #include "Input.h"
 #include <iostream>
-void processCameraInputs(GLFWwindow* window, Camera& camera)
+void processCameraInputs(GLFWwindow* window, Camera& camera, const float& deltaTime)
 {
     // move the camera
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(FORWARD);
+        camera.ProcessKeyboard(FORWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(LEFT);
+        camera.ProcessKeyboard(LEFT, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(BACKWARD);
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(RIGHT);
+        camera.ProcessKeyboard(RIGHT, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(DOWN);
+        camera.ProcessKeyboard(DOWN, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
     {
-        camera.ProcessKeyboard(UP);
+        camera.ProcessKeyboard(UP, deltaTime);
     }
         
 }

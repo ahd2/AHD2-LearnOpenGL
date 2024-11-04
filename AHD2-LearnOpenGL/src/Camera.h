@@ -23,7 +23,7 @@ public:
 	Camera(glm::vec3& position);
 	~Camera();
 	glm::mat4 GetViewMatrix();
-	void ProcessKeyboard(Camera_Movement direction);
+	void ProcessKeyboard(Camera_Movement direction,const float& deltaTime);
 
 private:
 	glm::vec3 m_UpDir;
