@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Input.h"
 
 int main(void)
 {
@@ -152,13 +153,18 @@ int main(void)
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//绘制模式更改为线框模式
         glEnable(GL_DEPTH_TEST);//启用深度测试
 
+        //定义相机位置
+        glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+        glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+        glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
         //模型矩阵
         glm::mat4 model;
         model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         //观察矩阵
         glm::mat4 view;
         // 注意，我们将矩阵向我们要进行移动场景的反方向移动。
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         //投影矩阵
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
@@ -170,6 +176,9 @@ int main(void)
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+            //处理输入
+            processInputs(window);
+
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
             //glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
@@ -179,6 +188,12 @@ int main(void)
             shader.SetUniform1f("time", timeValue);
 
             vao.Bind();
+
+            //观察矩阵
+            glm::mat4 view;
+            // 注意，我们将矩阵向我们要进行移动场景的反方向移动。
+            view = glm::lookAt(cameraPos + sin(timeValue), glm::vec3(0.0f, 0.0f, 0.0f), cameraUp);
+            shader.SetUniformMatrix4fv("view", view);
 
             for (unsigned int i = 0; i < 10; i++)
             {
@@ -190,11 +205,6 @@ int main(void)
 
                 glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
             }
-            //model = glm::rotate(model, glm::radians(0.5f), glm::vec3(0.5f, 1.0f, 0.0f));
-
-            //shader.SetUniformMatrix4fv("model", model);
-
-            //glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
