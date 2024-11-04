@@ -17,9 +17,16 @@
 //全局变量
 float deltaTime = 0.0f; // 当前帧与上一帧的时间差
 float lastFrame = 0.0f; // 上一帧的时间
+//屏幕宽高
+const int screenWidth = 160 * 5;
+const int screenHeight = 90 * 5;
+float lastX = screenWidth * 0.5f, lastY = screenHeight * 0.5f;
+bool firstMouse = true;
+float xoffset = 0.0f, yoffset = 0.0f;
 
 int main(void)
 {
+
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -29,9 +36,6 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//打开核心模式
-
-    const int screenWidth = 160 * 5;
-    const int screenHeight = 90 * 5;
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(screenWidth, screenHeight, "Hello World", NULL, NULL);
@@ -168,6 +172,10 @@ int main(void)
 
         shader.SetUniformMatrix4fv("projection", projection);
 
+        //鼠标移动配置
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetCursorPosCallback(window, mouse_callback);
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
@@ -178,6 +186,9 @@ int main(void)
 
             //处理输入
             processCameraInputs(window, camera, deltaTime);
+            std::cout << xoffset << std::endl;
+            std::cout << yoffset << std::endl;
+            camera.ProcessMouseMovement(xoffset,yoffset);
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
@@ -209,8 +220,29 @@ int main(void)
 
             /* Poll for and process events */
             glfwPollEvents();
+
+            //按下esc键退出渲染循环
+            if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            {
+                break;
+            }
         }
     }
     glfwTerminate();
     return 0;
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    xoffset = xpos - lastX;
+    yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
 }

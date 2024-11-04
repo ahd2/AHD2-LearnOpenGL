@@ -27,5 +27,7 @@ void processCameraInputs(GLFWwindow* window, Camera& camera, const float& deltaT
     {
         camera.ProcessKeyboard(UP, deltaTime);
     }
-        
 }
+
+
+

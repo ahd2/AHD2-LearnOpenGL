@@ -17,6 +17,9 @@ class Camera
 public:
 	//可配置
 	glm::vec3 Position;
+	float MouseSensitivity;
+	float Yaw;
+	float Pitch;
 	//只读
 	glm::mat4 Matrix_VP;//相机VP矩阵
 	//
@@ -24,8 +27,11 @@ public:
 	~Camera();
 	glm::mat4 GetViewMatrix();
 	void ProcessKeyboard(Camera_Movement direction,const float& deltaTime);
+	void ProcessMouseMovement(const float& xoffset, const float& yoffset, bool constrainPitch = true);
 
 private:
 	glm::vec3 m_UpDir;
 	glm::vec3 m_FrontDir;
+	glm::vec3 m_RightDir;
+	void updateCameraVectors();
 };
