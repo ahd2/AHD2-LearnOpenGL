@@ -49,27 +49,78 @@ int main(void)
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
         float vertices[] = {
-        0.0f, 1.0f,   0.8f, 0.0f, 0.0f,   0.5f, 1.0f,  //0(位置， 颜色， uv)
-        1.0f, 0.0f,   0.0f, 0.6f, 0.0f,   1.0f, 0.5f,  //1
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.8f,   0.0f, 0.0f,  //2
-        -0.4f, 0.8f,  0.5f, 0.5f, 0.0f,   0.3f, 0.9f   //3
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
         };
 
         unsigned int indices[] = {
             0, 1, 2, //第一个三角形
-            2, 3 ,0  //第二个三角形
+            3, 4, 5, //第二个三角形
+
+            6, 7, 8,
+            9, 10, 11,
+
+            12, 13, 14,
+            15, 16, 17,
+
+            18, 19, 20,
+            21, 22, 23,
+
+            24, 25, 26,
+            27, 28, 29,
+
+            30, 31, 32,
+            33, 34, 35
         };
 
-        VertexBuffer vbo(vertices, 7 * 4 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
+        VertexBuffer vbo(vertices, 5 * 36 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
 
         VertexArray vao;
         VertexBufferLayout layout;
-        layout.Push<float>(2);
         layout.Push<float>(3);
         layout.Push<float>(2);
         vao.AddAtrrib(vbo, layout);
 
-        IndexBuffer ibo(indices, 6);//创建一个ibo
+        IndexBuffer ibo(indices, 36);//创建一个ibo
 
         Shader shader("res/Shaders/Basic.shader");//直接包含了shader的创建链接启用等等
 
@@ -117,7 +168,7 @@ int main(void)
 
             vao.Bind();
 
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
