@@ -25,8 +25,10 @@ void main()
 {
     //FragCol = vec4(OutVertexCol, 1.0f) * (sin(time) * 0.5 + 0.5) + (aaa * 0.1);
     //FragCol = vec4(OutVertexCol, 1.0f);
-    vec4 texcol = texture(texture0, Uv);
+    //vec4 texcol = textureLod(texture0, Uv, 1);
+    vec4 texcol = texture(texture0,Uv);
     vec4 texcol1 = texture(texture1, Uv);
-    FragCol = mix(texcol, texcol1, 0.5);
+    //FragCol = mix(texcol, texcol1, 0.5);
+    FragCol = texcol;
     //FragCol = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 

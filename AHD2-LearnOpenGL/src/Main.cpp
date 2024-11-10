@@ -22,7 +22,6 @@ const int screenWidth = 160 * 5;
 const int screenHeight = 90 * 5;
 float lastX = screenWidth * 0.5f, lastY = screenHeight * 0.5f;
 float currentX = screenWidth * 0.5f, currentY = screenHeight * 0.5f;
-bool firstMouse = true;
 float xoffset = 0.0f, yoffset = 0.0f;
 
 int main(void)
