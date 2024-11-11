@@ -164,12 +164,10 @@ int main(void)
 
         //定义相机
         glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-        Camera camera(cameraPos);
+        Camera camera(cameraPos, 45.0f, 0.1f, 100.0f, screenWidth, screenHeight);
 
         //投影矩阵
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
-
+        glm::mat4 projection = camera.GetProjectionMatrix();
         shader.SetUniformMatrix4fv("projection", projection);
 
         //鼠标移动配置
@@ -195,8 +193,7 @@ int main(void)
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//清空屏幕用的颜色，状态设置函数
-            //glClear(GL_COLOR_BUFFER_BIT);//状态使用函数，清空屏幕
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//状态使用函数，清空屏幕
             
             float timeValue = glfwGetTime();
             shader.SetUniform1f("time", timeValue);
@@ -220,7 +217,6 @@ int main(void)
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
-
             /* Poll for and process events */
             glfwPollEvents();
 

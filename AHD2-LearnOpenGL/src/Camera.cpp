@@ -1,8 +1,13 @@
 #include "Camera.h"
 
-Camera::Camera(glm::vec3& position)
+Camera::Camera(glm::vec3& position, float fov, float nearPlane, float farPlane, int cameraPixelWidth, int cameraPixelHeight)
 {
 	Position = position;
+	Fov = fov;
+	NearPlane = nearPlane;
+	FarPlane = farPlane;
+	CameraPixelWidth = cameraPixelWidth;
+	CameraPixelHeight = cameraPixelHeight;
 	MouseSensitivity = 0.1;
 	Yaw = 0.0f;
 	Pitch = 0.0f;
@@ -17,6 +22,11 @@ Camera::~Camera()
 glm::mat4 Camera::GetViewMatrix()
 {
 	return glm::lookAt(Position, Position + m_FrontDir, m_UpDir);
+}
+
+glm::mat4 Camera::GetProjectionMatrix()
+{
+	return glm::perspective(glm::radians(Fov), (float)CameraPixelWidth / CameraPixelHeight, NearPlane, FarPlane);
 }
 
 void Camera::ProcessKeyboard(Camera_Movement direction, const float& deltaTime)
