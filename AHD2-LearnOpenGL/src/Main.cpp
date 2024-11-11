@@ -13,10 +13,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "Input.h"
-//assimp测试
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 //全局变量
 float deltaTime = 0.0f; // 当前帧与上一帧的时间差
@@ -28,22 +24,19 @@ float lastX = screenWidth * 0.5f, lastY = screenHeight * 0.5f;
 float currentX = screenWidth * 0.5f, currentY = screenHeight * 0.5f;
 float xoffset = 0.0f, yoffset = 0.0f;
 
+struct Vertex
+{
+    glm::vec3 positon;
+    glm::vec2 texturecoord;
+};
+struct Vertextest
+{
+    glm::vec3 positon;
+    glm::vec3 texturecoord;
+};
+
 int main(void)
 {
-    std::string modelpath = "res/Models/box.obj";
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(modelpath, aiProcess_Triangulate | aiProcess_FlipUVs);
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-    {
-        std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
-    }
-    aiMesh* mesh = scene->mMeshes[0];
-    for (int i = 0; i < mesh->mNumVertices; i++)
-    {
-        std::cout << mesh->mVertices[i].x << mesh->mVertices[i].y << mesh->mVertices[i].z << std::endl;
-    }
-    std::cout << mesh->mVertices << std::endl;
-
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -75,48 +68,48 @@ int main(void)
     }
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        Vertex vertices[] = {
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}},
+    {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}},
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    {{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
 
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{0.5f, -0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
 
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}},
+    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}}
         };
 
         unsigned int indices[] = {

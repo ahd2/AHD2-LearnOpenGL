@@ -17,6 +17,7 @@ Camera::Camera(glm::vec3& position, float fov, float nearPlane, float farPlane, 
 
 Camera::~Camera()
 {
+	//暂时不需要写析构函数，因为没在堆内存分配资源
 }
 
 glm::mat4 Camera::GetViewMatrix()
