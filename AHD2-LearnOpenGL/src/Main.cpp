@@ -13,6 +13,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "Input.h"
+//assimp测试
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 //全局变量
 float deltaTime = 0.0f; // 当前帧与上一帧的时间差
@@ -26,6 +30,19 @@ float xoffset = 0.0f, yoffset = 0.0f;
 
 int main(void)
 {
+    std::string modelpath = "res/Models/box.obj";
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(modelpath, aiProcess_Triangulate | aiProcess_FlipUVs);
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+    {
+        std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+    }
+    aiMesh* mesh = scene->mMeshes[0];
+    for (int i = 0; i < mesh->mNumVertices; i++)
+    {
+        std::cout << mesh->mVertices[i].x << mesh->mVertices[i].y << mesh->mVertices[i].z << std::endl;
+    }
+    std::cout << mesh->mVertices << std::endl;
 
     GLFWwindow* window;
 
@@ -145,11 +162,11 @@ int main(void)
 
         IndexBuffer ibo(indices, 36);//创建一个ibo
 
-        Shader shader("res/Shaders/Basic.shader");//直接包含了shader的创建链接启用等等
-
         vao.UnBind();
         ibo.UnBind();
         vbo.UnBind();
+
+        Shader shader("res/Shaders/Basic.shader");//直接包含了shader的创建链接启用等等
 
         Texture tex0("res/Textures/container.jpg", GL_RGB);
         Texture tex1("res/Textures/awesomeface.png", GL_RGBA);
