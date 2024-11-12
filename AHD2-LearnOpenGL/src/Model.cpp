@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <iostream>
 Model::Model(const std::string& path, glm::vec3& position)
 {
     Position = position;
@@ -7,6 +8,19 @@ Model::Model(const std::string& path, glm::vec3& position)
 
 Model::~Model()
 {
+}
+
+void Model::Draw(Shader& shader)
+{
+    //设置M矩阵应该在这里设置
+    glm::mat4 model;
+    model = glm::translate(model, Position);
+    shader.SetUniformMatrix4fv("model", model);
+
+    for (int i = 0; i < Meshes.size(); i++)
+    {
+        Meshes[i].Draw(shader);
+    }
 }
 
 void Model::loadModel(const std::string& path)
@@ -20,6 +34,7 @@ void Model::loadModel(const std::string& path)
     }
     for (int i = 0; i < (scene->mNumMeshes); i++)
     {
+        //std::cout << i << std::endl;
         Meshes.push_back(processMesh(scene->mMeshes[i]));//遍历
     }
 }
@@ -61,7 +76,10 @@ Mesh Model::processMesh(aiMesh* mesh)
     {
         aiFace face = mesh->mFaces[i];
         for (unsigned int j = 0; j < face.mNumIndices; j++)
+        {
+            //std::cout << face.mIndices[j] << std::endl;
             indices.push_back(face.mIndices[j]);
+        }
     }
     return Mesh(vertices, indices);
 }

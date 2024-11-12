@@ -3,6 +3,7 @@
 class  IndexBuffer
 {
 public:
+	unsigned int Count;
 	 /// <summary>
 	 /// 
 	 /// </summary>
@@ -16,5 +17,4 @@ public:
 
 private:
 	unsigned int m_RendererID;
-	unsigned int m_count;
 };

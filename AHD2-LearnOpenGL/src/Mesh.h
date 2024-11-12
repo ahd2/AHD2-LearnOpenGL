@@ -6,6 +6,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 struct Vertex
 {
 	glm::vec3 Position;
@@ -19,7 +20,7 @@ public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices);
 	~Mesh();
 	void Draw(Shader& shader);
-private:
+//private:
 	VertexBuffer m_Vbo;
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;

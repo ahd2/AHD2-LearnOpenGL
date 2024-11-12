@@ -1,8 +1,10 @@
 #include "VertexArray.h"
 #include "Renderer.h"
+#include <iostream>
 
 VertexArray::VertexArray()
 {
+	std::cout << "构造vao" << std::endl;
 	m_AttributeCount = 0;
 	glGenVertexArrays(1, &m_RendererID);
 	glBindVertexArray(m_RendererID);
@@ -10,6 +12,7 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
+	std::cout << "销毁vao" << std::endl;
 	glDeleteVertexArrays(1, &m_RendererID);
 }
 
@@ -34,5 +37,6 @@ void VertexArray::AddAtrrib(const VertexBuffer& vertexbuffer, const VertexBuffer
 
 void VertexArray::UnBind() const
 {
+	std::cout << "解绑vao" << std::endl;
 	glBindVertexArray(0);
 }

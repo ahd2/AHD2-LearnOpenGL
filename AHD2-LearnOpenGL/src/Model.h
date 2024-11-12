@@ -16,6 +16,7 @@ public:
 
 	Model(const std::string& path, glm::vec3& position);
 	~Model();
+	void Draw(Shader& shader);
 private:
 	void loadModel(const std::string& path);
 	Mesh processMesh(aiMesh* mesh);

@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "Input.h"
+#include "Model.h"
 
 //全局变量
 float deltaTime = 0.0f; // 当前帧与上一帧的时间差
@@ -23,17 +24,6 @@ const int screenHeight = 90 * 5;
 float lastX = screenWidth * 0.5f, lastY = screenHeight * 0.5f;
 float currentX = screenWidth * 0.5f, currentY = screenHeight * 0.5f;
 float xoffset = 0.0f, yoffset = 0.0f;
-
-struct Vertex
-{
-    glm::vec3 positon;
-    glm::vec2 texturecoord;
-};
-struct Vertextest
-{
-    glm::vec3 positon;
-    glm::vec3 texturecoord;
-};
 
 int main(void)
 {
@@ -68,97 +58,6 @@ int main(void)
     }
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        Vertex vertices[] = {
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}},
-    {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}},
-
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
-
-    {{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{0.5f, -0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f}},
-
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}}
-        };
-
-        unsigned int indices[] = {
-            0, 1, 2, //第一个三角形
-            3, 4, 5, //第二个三角形
-
-            6, 7, 8,
-            9, 10, 11,
-
-            12, 13, 14,
-            15, 16, 17,
-
-            18, 19, 20,
-            21, 22, 23,
-
-            24, 25, 26,
-            27, 28, 29,
-
-            30, 31, 32,
-            33, 34, 35
-        };
-
-        glm::vec3 cubePositions[] = {
-          glm::vec3(0.0f,  0.0f,  0.0f),
-          glm::vec3(2.0f,  5.0f, -15.0f),
-          glm::vec3(-1.5f, -2.2f, -2.5f),
-          glm::vec3(-3.8f, -2.0f, -12.3f),
-          glm::vec3(2.4f, -0.4f, -3.5f),
-          glm::vec3(-1.7f,  3.0f, -7.5f),
-          glm::vec3(1.3f, -2.0f, -2.5f),
-          glm::vec3(1.5f,  2.0f, -2.5f),
-          glm::vec3(1.5f,  0.2f, -1.5f),
-          glm::vec3(-1.3f,  1.0f, -1.5f)
-        };
-
-        VertexBuffer vbo(vertices, 5 * 36 * sizeof(float));//创建一个vbo(创建的时候直接绑定了)
-
-        VertexArray vao;
-        VertexBufferLayout layout;
-        layout.Push<float>(3);
-        layout.Push<float>(2);
-        vao.AddAtrrib(vbo, layout);
-
-        IndexBuffer ibo(indices, 36);//创建一个ibo
-
-        vao.UnBind();
-        ibo.UnBind();
-        vbo.UnBind();
-
         Shader shader("res/Shaders/Basic.shader");//直接包含了shader的创建链接启用等等
 
         Texture tex0("res/Textures/container.jpg", GL_RGB);
@@ -179,6 +78,9 @@ int main(void)
         //投影矩阵
         glm::mat4 projection = camera.GetProjectionMatrix();
         shader.SetUniformMatrix4fv("projection", projection);
+
+        glm::vec3 position = glm::vec3(0, 0, 0);
+        Model model("res/Models/box.obj", position);
 
         //鼠标移动配置
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -208,13 +110,12 @@ int main(void)
             float timeValue = glfwGetTime();
             shader.SetUniform1f("time", timeValue);
 
-            vao.Bind();
-
             //观察矩阵
             glm::mat4 view = camera.GetViewMatrix();
             shader.SetUniformMatrix4fv("view", view);
 
-            for (unsigned int i = 0; i < 10; i++)
+            model.Draw(shader);
+            /*for (unsigned int i = 0; i < 10; i++)
             {
                 glm::mat4 model;
                 model = glm::translate(model, cubePositions[i]);
@@ -223,7 +124,7 @@ int main(void)
                 shader.SetUniformMatrix4fv("model", model);
 
                 glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
-            }
+            }*/
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

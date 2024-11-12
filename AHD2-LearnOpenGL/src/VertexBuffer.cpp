@@ -1,7 +1,9 @@
 #include "VertexBuffer.h"
 #include "Renderer.h"
+#include <iostream>
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
+	std::cout << "构造vbo" << std::endl;
 	//生成一个缓冲区
 	glGenBuffers(1, &m_RendererID);
 	//指定为顶点缓冲区
@@ -12,6 +14,7 @@ VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 
 VertexBuffer::~VertexBuffer()
 {
+	std::cout << "销毁vbo" << std::endl;
 	glDeleteBuffers(1, &m_RendererID);
 }
 
@@ -22,5 +25,6 @@ void VertexBuffer::Bind() const
 
 void VertexBuffer::UnBind() const
 {
+	std::cout << "解绑vbo" << std::endl;
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
