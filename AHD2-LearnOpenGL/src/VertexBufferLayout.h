@@ -30,7 +30,6 @@ public:
 	}
 
 	inline const std::vector<VertexBufferSingleAttrib> GetAttributes() const { return m_Attributes; }
-
 	inline unsigned int GetStride() const { return m_Stride; }
 private:
 	std::vector<VertexBufferSingleAttrib> m_Attributes;
