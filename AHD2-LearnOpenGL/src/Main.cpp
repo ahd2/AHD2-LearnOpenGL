@@ -1,16 +1,7 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include <iostream>
-
-#include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
 #include "Shader.h"
 #include "Texture.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "Input.h"
 #include "Model.h"
@@ -115,16 +106,6 @@ int main(void)
             shader.SetUniformMatrix4fv("view", view);
 
             model.Draw(shader);
-            /*for (unsigned int i = 0; i < 10; i++)
-            {
-                glm::mat4 model;
-                model = glm::translate(model, cubePositions[i]);
-                float angle = 20.0f * (i + 1);
-                model = glm::rotate(model, timeValue * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-                shader.SetUniformMatrix4fv("model", model);
-
-                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
-            }*/
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

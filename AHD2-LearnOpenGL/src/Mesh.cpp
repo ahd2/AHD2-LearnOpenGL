@@ -28,15 +28,16 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices)
     //填充当前绑定的索引缓冲区
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
     m_IndexCount = indices.size();
-    //主动解绑防止后续乱改（可能没必要）
-    /*m_Vao.UnBind();
-    m_Ibo.UnBind();
-    m_Vbo.UnBind();*/
+    //主动解绑防止后续乱改（可能没必要
     glBindVertexArray(0);
 }
 
 Mesh::~Mesh()
 {
+    //不能在这里删除buffer
+    /*glDeleteBuffers(1, &m_Vbo);
+    glDeleteBuffers(1, &m_Ibo);
+    glDeleteVertexArrays(1, &m_Vao);*/
     std::cout << "析构mesh" << std::endl;
 }
 
@@ -44,4 +45,11 @@ void Mesh::Draw(Shader& shader)
 {
     glBindVertexArray(m_Vao);
     glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
+}
+
+void Mesh::DeleteBuffer()
+{
+    glDeleteBuffers(1, &m_Vbo);
+    glDeleteBuffers(1, &m_Ibo);
+    glDeleteVertexArrays(1, &m_Vao);
 }

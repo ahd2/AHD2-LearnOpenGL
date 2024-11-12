@@ -20,6 +20,7 @@ public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices);
 	~Mesh();
 	void Draw(Shader& shader);
+	void DeleteBuffer();
 private:
 	unsigned int m_Vbo;
 	unsigned int m_Vao;

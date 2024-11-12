@@ -8,6 +8,11 @@ Model::Model(const std::string& path, glm::vec3& position)
 
 Model::~Model()
 {
+    //遍历每个Mesh，删除Buffer
+    for (int i = 0; i < Meshes.size(); i++)
+    {
+        Meshes[i].DeleteBuffer();
+    }
 }
 
 void Model::Draw(Shader& shader)
@@ -27,7 +32,7 @@ void Model::loadModel(const std::string& path)
 {
     Assimp::Importer importer;
     //aiProcess_Triangulate表示导入时把模型转为三角面，aiProcess_FlipUVs表示翻转uv.y
-    const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate);
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
         std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
