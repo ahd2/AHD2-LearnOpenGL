@@ -80,7 +80,7 @@ int main(void)
         shader.SetUniformMatrix4fv("projection", projection);
 
         glm::vec3 position = glm::vec3(0, 0, 0);
-        Model model("res/Models/nanosuit.obj", position);
+        Model model("res/Models/box.obj", position);
 
         // Û±Í“∆∂Ø≈‰÷√
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
