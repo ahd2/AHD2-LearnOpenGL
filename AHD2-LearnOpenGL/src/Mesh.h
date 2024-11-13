@@ -20,8 +20,9 @@ public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices);
 	~Mesh();
 	void Draw(Shader& shader);
+	void DeleteMesh();
 //private:
-	VertexBuffer m_Vbo;
-	VertexArray m_Vao;
-	IndexBuffer m_Ibo;
+	VertexBuffer* m_Vbo;
+	VertexArray* m_Vao;
+	IndexBuffer* m_Ibo;
 };

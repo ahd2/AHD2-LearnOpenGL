@@ -8,6 +8,10 @@ Model::Model(const std::string& path, glm::vec3& position)
 
 Model::~Model()
 {
+    for (int i = 0; i < Meshes.size(); i++)
+    {
+        Meshes[i].DeleteMesh();
+    }
 }
 
 void Model::Draw(Shader& shader)
